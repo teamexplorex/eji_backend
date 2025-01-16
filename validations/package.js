@@ -33,7 +33,9 @@ const createPackageDto = yup.object().shape({
       yup.object().shape({
         day: yup.number().optional(),
         description: yup.string().optional(),
-        images: yup.array().of(yup.string()).optional(), 
+        images: yup.array().of(yup.string()).optional(),
+        title: yup.string().optional(),
+        
       })
     )
     .optional(),
@@ -85,6 +87,7 @@ const updatePackageDto = yup.object().shape({
         day: yup.number().optional(),
         description: yup.string().optional(),
         images: yup.array().of(yup.string()).optional(),
+        title: yup.string().optional(),
       })
     )
     .optional(),

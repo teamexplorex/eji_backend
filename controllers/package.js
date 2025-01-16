@@ -35,7 +35,7 @@ const PackageController = {
 
   getPackageById: async (req, res) => {
     try {
-      const packageData = await Package.findById({
+      const packageData = await Package.findOne({
         slug: req.params.id,
       });
       if (!packageData) throw new Error("Package not found");

@@ -22,11 +22,12 @@ const PackageSchema = mongoose.Schema(
     tags: Validations([String]),
     shortMainCardImage: Validations(String),
     images: Validations([String]),
-    packageItinerary: [
+    da: [
       {
         day: Validations(Number),
         description: Validations(String),
         images: Validations([String]), // Add images array
+        title: Validations(String),
       },
     ],
     tourValidity: Validations(String),
