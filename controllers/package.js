@@ -3,35 +3,62 @@ import Package from "../models/package.js";
 const PackageController = {
   getPackages: async (req, res) => {
     try {
-      const { page = 1, limit = 10, tags, isFlightIncluded } = req.query;
+      const { page = 1, limit = 10, tags, isFlightIncluded, destination, experience, search } = req.query;
       if (!page || !limit) throw new Error("Page or Limit is required!");
-
-      const skipPackages = (page) * limit;
-      const ITEM_PER_PAGE = page * limit;
-
+      const skipPackages = (page) * limit; // Correct calculation for pagination
+      const ITEM_PER_PAGE = limit;
+  
+      // Base filters
       let queryParams = {
         ...(tags ? { tags: { $in: tags.split(",") } } : {}),
-        ...(isFlightIncluded !== undefined ? { isFlightIncluded } : {}),
+        ...(experience !== undefined && experience !== "undefined" ? { experience } : {}),
+        ...(destination !== undefined && destination !== "undefined" ? { destination } : {}),
+        ...(isFlightIncluded !== undefined && isFlightIncluded !== "undefined" ? { isFlightIncluded } : {}),
       };
-
+  
+      // Add search logic
+      if (search) {
+        const searchFields = [
+          "name",
+          "shortDescription",
+          "destination",
+          "experience",
+          "longDescription",
+          "slug",
+          "type",
+          "packageItinerary.description", // Include itinerary descriptions in the search
+          "stays.cityName", // Include stays city name in the search
+        ];
+  
+        queryParams.$or = searchFields.map(field => {
+          if (field.includes(".")) {
+            // For nested fields
+            return { [field]: { $regex: search, $options: "i" } };
+          } else {
+            // For top-level fields
+            return { [field]: { $regex: search, $options: "i" } };
+          }
+        });
+      }
+  
       const packages = await Package.find(queryParams)
         .sort({ createdAt: -1 })
         .skip(skipPackages)
         .limit(parseInt(limit));
-
+  
       const totalPackages = await Package.countDocuments(queryParams);
-
+  
       res.status(200).json({
         success: true,
         message: packages,
         totalPackages,
-        hasNextPage: ITEM_PER_PAGE < totalPackages,
+        hasNextPage: skipPackages + ITEM_PER_PAGE < totalPackages,
         hasPreviousPage: page > 1,
       });
     } catch (err) {
       res.status(400).json({ message: err.message });
     }
-  },
+  },  
 
   getPackageById: async (req, res) => {
     try {

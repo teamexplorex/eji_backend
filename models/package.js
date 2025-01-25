@@ -5,6 +5,9 @@ const PackageSchema = mongoose.Schema(
   {
     name: Validations(String),
     shortDescription: Validations(String),
+    destination: Validations(String),
+    experience: Validations(String),
+    priority: Validations(Number),
     longDescription: Validations(String),
     stays: [
       {
@@ -22,7 +25,7 @@ const PackageSchema = mongoose.Schema(
     tags: Validations([String]),
     shortMainCardImage: Validations(String),
     images: Validations([String]),
-    da: [
+    packageItinerary: [
       {
         day: Validations(Number),
         description: Validations(String),

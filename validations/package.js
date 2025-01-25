@@ -4,6 +4,9 @@ const createPackageDto = yup.object().shape({
   name: yup.string().optional(),
   shortDescription: yup.string().optional(),
   longDescription: yup.string().optional(),
+  destination: yup.string().optional(),
+  experience: yup.string().optional(),
+  priority: yup.number().optional(),
   stays: yup
     .array()
     .of(
@@ -72,6 +75,9 @@ const updatePackageDto = yup.object().shape({
     .optional(),
   actualPrice: yup.number().optional(),
   discountedPrice: yup.number().optional(),
+  destination: yup.string().optional(),
+  experience: yup.string().optional(),
+  priority: yup.number().optional(),
   totalNights: yup.number().optional(),
   slug: yup.string().optional(),
   totalDays: yup.number().optional(),

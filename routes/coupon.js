@@ -6,7 +6,7 @@ import { validateCreateCoupon, validateUpdateCoupon } from "../validations/coupo
 
 export const router = express.Router();
 
-router.get("/", [isAuthorised, isAdmin], CouponController.getCoupons);
+router.get("/", CouponController.getCoupons);
 router.get("/latest",[isAuthorised], CouponController.getLatestCoupon)
 router.get("/validate", [isAuthorised], CouponController.validateCoupon);
 router.get("/:id", [isAuthorised, isAdmin], CouponController.getCoupon);

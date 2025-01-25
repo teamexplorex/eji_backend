@@ -3,9 +3,6 @@ import Otp from "../models/otp.js";
 import User from "../models/user.js";
 import { comparePassword } from "../utils/auth.js";
 import { EPOCH, ROLE } from "../constants/common.js";
-import axios from 'axios';
-import { otpMessage } from "../utils/sms.js";
-
 const AuthController = {
   makeOtp: async (number) => {
     try {
@@ -30,7 +27,7 @@ const AuthController = {
         },
       ]);
 
-      await axios.get(`${process.env.SMS_API_URL}?username=${process.env.SMS_USER_NAME}&msg_token=${process.env.SMS_MESSAGE_TOKEN}&sender_id=${process.env.SMS_SENDER_ID}&message=${otpMessage(otp, number)}`)
+      // await axios.get(`${process.env.SMS_API_URL}?username=${process.env.SMS_USER_NAME}&msg_token=${process.env.SMS_MESSAGE_TOKEN}&sender_id=${process.env.SMS_SENDER_ID}&message=${otpMessage(otp, number)}`)
       return otp;
     } catch (err) {
       console.log(err)

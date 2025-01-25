@@ -8,7 +8,7 @@ const BookedPackagesSchema = mongoose.Schema(
       required: true,
     }),
     paidPrice: Validations(Number, { required: true }),
-    travelDates: Validations([Date], { required: true }),
+    departureDate: Validations(String),
     coupon: {
       name: Validations(String),
       isPercentage: Validations(Boolean),

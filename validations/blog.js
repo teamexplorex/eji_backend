@@ -2,11 +2,13 @@ import * as yup from "yup";
 
 const createBlogDto = yup.object().shape({
   title: yup.string().required("Title is required"),
+  priority: yup.number().required("Priority is required"),
   slug: yup.string().required("Slug is required"),
   description: yup.string().required("Description is required"),
   content: yup.string().required("Content is required"), // Quill editor HTML
   tags: yup.array().of(yup.string()).optional(), // Array of strings
   bannerImage: yup.string().required("Banner Image is required"),
+  smallBannerImage: yup.string().required("Banner Image is required"),
 });
 
 export const validateCreateBlog = async (req, res, next) => {
@@ -21,12 +23,13 @@ export const validateCreateBlog = async (req, res, next) => {
 
 const updateBlogDto = yup.object().shape({
     title: yup.string().optional(),
+    priority: yup.number().optional(),
     description: yup.string().optional(),
     slug: yup.string().optional(),
     content: yup.string().optional(), // Quill editor HTML
     tags: yup.array().of(yup.string()).optional(), // Array of strings
     bannerImage: yup.string().optional(),
-    shortBannerImage: yup.string().optional()
+    smallBannerImage: yup.string().optional()
   });
   
   export const validateUpdateBlog = async (req, res, next) => {

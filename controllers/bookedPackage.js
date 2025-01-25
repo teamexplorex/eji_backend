@@ -84,6 +84,8 @@ const createBookedPackageHelper = async ({ body }, req) => {
             ...body,
             paidPrice: totalAmount,
             totalMrpAmount: totalMrpAmount,
+            status: "PENDING",
+            discountedAmount: packageDetails.discountedAmount,
             orderId: result.id,
           },
         ],
@@ -299,7 +301,7 @@ const BookedPackagesController = {
             })
             .session(session);
 
-          if (!bookedPackage.isWebhookEvent) {
+          if (!bookedPackage?.isWebhookEvent) {
             bookedPackage.status = "BOOKED";
             bookedPackage.isWebhookEvent = true;
 
@@ -313,17 +315,17 @@ const BookedPackagesController = {
               );
             }
 
-            await axios.get(
-              `${process.env.SMS_API_URL}?username=${
-                process.env.SMS_USER_NAME
-              }&msg_token=${process.env.SMS_MESSAGE_TOKEN}&sender_id=${
-                process.env.SMS_SENDER_ID
-              }&message=${preOrderCompleteSms(
-                bookedPackage.userId.number,
-                order_id,
-                bookedPackage.paidPrice
-              )}`
-            );
+            // await axios.get(
+            //   `${process.env.SMS_API_URL}?username=${
+            //     process.env.SMS_USER_NAME
+            //   }&msg_token=${process.env.SMS_MESSAGE_TOKEN}&sender_id=${
+            //     process.env.SMS_SENDER_ID
+            //   }&message=${preOrderCompleteSms(
+            //     bookedPackage.userId.number,
+            //     order_id,
+            //     bookedPackage.paidPrice
+            //   )}`
+            // );
           }
         }
 
