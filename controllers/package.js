@@ -17,7 +17,7 @@ const PackageController = {
       };
   
       // Add search logic
-      if (search) {
+      if (search && search !== 'null' && search !== 'undefined' && search !== undefined) {
         const searchFields = [
           "name",
           "shortDescription",
